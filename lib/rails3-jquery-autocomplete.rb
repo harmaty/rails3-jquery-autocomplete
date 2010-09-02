@@ -30,7 +30,7 @@ module Rails3JQueryAutocomplete
 
       define_method("autocomplete_#{object}_#{method}") do
         unless params[:term] && params[:term].empty?
-          items = object.to_s.camelize.constantize.where(["LOWER(#{method}) LIKE ?", "#{(options[:full] ? '%' : '')}#{params[:term].downcase}%"]).limit(limit).order(order)
+          items = object.to_s.camelize.constantize.select("DISTINCT #{method}").where(["LOWER(#{method}) LIKE ?", "#{(options[:full] ? '%' : '')}#{params[:term].downcase}%"]).limit(limit).order(order)
         else
           items = {}
         end
